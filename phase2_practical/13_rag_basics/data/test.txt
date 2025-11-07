@@ -1,0 +1,9 @@
+LangChain 是一个强大的 LLM 应用框架。
+
+核心组件包括：
+1. Models - 模型接口
+2. Prompts - 提示词
+3. Chains - 链
+4. Agents - 代理
+
+RAG 是 LangChain 的核心应用场景。

@@ -1,18 +1,64 @@
-取文本: 这个产品价格是 -100 元，库存 50 件
-验证规则: price > 0, stock >= 0, name 不能是 'unknown'
+示例 6：RAG 问答 - 使用检索工具
+======================================================================
 
-尝试 1/3...
+问题: LangChain 有哪些核心组件？
+回答: LangChain 的核心组件包括 Models、Prompts、Chains、Agents 和 Memory。这些 组件为构建和应用大型语言模型（LLM）提供了基础，能够支持诸如 RAG（检索增强生成）等高级功能。通过这些组件，开发者可以更好地利用 LLM 的能力，实现更智能和更高效的自然语言处理应用。
+----------------------------------------------------------------------
 
-错误: Error code: 400 - {'error': {'message': 'tool call validation failed: parameters for tool Product did not match schema: errors: [`/price`: expected number, but got string, `/stock`: expected integer, but got string]', 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=Product>{"name": "默认产品", "price": "-100", "stock": "50"}</function>'}}     
+问题: RAG 是什么？
+回答: RAG 是 Retrieval-Augmented Generation 的缩写，它是一种结合了检索和生成的 技术，让语言模型能够访问外部知识库。它是 LangChain 框架中的一个核心应用场景，用于构建大型语言模型（LLM）应用。
+----------------------------------------------------------------------
+
+问题: LangChain 1.0 有什么改进？
+
+错误: Error code: 400 - {'error': {'message': "Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.", 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=search_knowledge_base {"query": "LangChain 1.0 \\u6539\\u9769"} </function>'}} 
 Traceback (most recent call last):
-  File "c:\Users\wangy\Desktop\temp\langchain_v1_study\phase2_practical\12_validation_retry\main.py", line 457, in main
-    example_4_llm_validation_retry()
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "c:\Users\wangy\Desktop\temp\langchain_v1_study\phase2_practical\12_validation_retry\main.py", line 206, in example_4_llm_validation_retry
-    result = structured_llm.invoke(f"从以下文本提取产品信息：{text}")
-             ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\wangy\Desktop\temp\langchain_v1_study\venv\Lib\site-packages\langchain_core\runnables\base.py", line 3088, in invoke
-    input_ = context.run(step.invoke, input_, config, **kwargs)
+  File "c:\Users\wangy\Desktop\temp\langchain_v1_study\phase2_practical\13_rag_basics\main.py", line 439, in main
+    example_6_rag_qa(vectorstore)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\wangy\Desktop\temp\langchain_v1_study\phase2_practical\13_rag_basics\main.py", line 398, in example_6_rag_qa
+    response = agent.invoke({"messages": [{"role": "user", "content": question}]})
+  File "C:\Users\wangy\Desktop\temp\langchain_v1_study\venv\Lib\site-packages\langgraph\pregel\main.py", line 3094, in invoke
+    for chunk in self.stream(
+                 ~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<10 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ):
+    ^
+  File "C:\Users\wangy\Desktop\temp\langchain_v1_study\venv\Lib\site-packages\langgraph\pregel\main.py", line 2679, in stream
+    for _ in runner.tick(
+             ~~~~~~~~~~~^
+        [t for t in loop.tasks.values() if not t.writes],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        schedule_task=loop.accept_push,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "C:\Users\wangy\Desktop\temp\langchain_v1_study\venv\Lib\site-packages\langgraph\pregel\_runner.py", line 167, in tick
+    run_with_retry(
+    ~~~~~~~~~~~~~~^
+        t,
+        ^^
+    ...<10 lines>...
+        },
+        ^^
+    )
+    ^
+  File "C:\Users\wangy\Desktop\temp\langchain_v1_study\venv\Lib\site-packages\langgraph\pregel\_retry.py", line 42, in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wangy\Desktop\temp\langchain_v1_study\venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 656, in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+  File "C:\Users\wangy\Desktop\temp\langchain_v1_study\venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 400, in invoke
+    ret = self.func(*args, **kwargs)
+  File "C:\Users\wangy\Desktop\temp\langchain_v1_study\venv\Lib\site-packages\langchain\agents\factory.py", line 1065, in model_node
+    response = _execute_model_sync(request)
+  File "C:\Users\wangy\Desktop\temp\langchain_v1_study\venv\Lib\site-packages\langchain\agents\factory.py", line 1038, in _execute_model_sync
+    output = model_.invoke(messages)
   File "C:\Users\wangy\Desktop\temp\langchain_v1_study\venv\Lib\site-packages\langchain_core\runnables\base.py", line 5489, in invoke
     return self.bound.invoke(
            ~~~~~~~~~~~~~~~~~^
@@ -68,4 +114,5 @@ Traceback (most recent call last):
                            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\wangy\Desktop\temp\langchain_v1_study\venv\Lib\site-packages\groq\_base_client.py", line 1044, in request
     raise self._make_status_error_from_response(err.response) from None        
-groq.BadRequestError: Error code: 400 - {'error': {'message': 'tool call validation failed: parameters for tool Product did not match schema: errors: [`/price`: expected number, but got string, `/stock`: expected integer, but got string]', 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=Product>{"name": "默认产品", "price": "-100", "stock": "50"}</function>'}}
+groq.BadRequestError: Error code: 400 - {'error': {'message': "Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.", 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=search_knowledge_base {"query": "LangChain 1.0 \\u6539\\u9769"} </function>'}}
+During task with name 'model' and id '54b7191c-5f00-8dbe-3594-6c5c2c884b06'  

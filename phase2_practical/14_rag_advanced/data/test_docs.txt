@@ -1,0 +1,34 @@
+
+LangChain 框架核心组件
+
+Models - 模型接口
+支持 OpenAI, Anthropic, Groq 等多种模型。
+版本要求：langchain>=1.0.0
+
+Prompts - 提示词模板
+使用 PromptTemplate 和 ChatPromptTemplate。
+
+Agents - 智能代理
+使用 create_agent 函数创建代理。
+支持工具调用和 ReAct 模式。
+
+RAG 进阶技术
+
+混合检索 (Hybrid Search)
+结合向量搜索和 BM25 关键词搜索。
+
+BM25 算法
+Best Match 25，基于词频的检索算法。
+是 TF-IDF 的改进版本。
+
+EnsembleRetriever
+使用 RRF (Reciprocal Rank Fusion) 算法。
+组合多个检索器的结果。
+
+代码示例
+
+@tool
+def search_docs(query: str) -> str:
+    return "结果"
+
+agent = create_agent(model=model, tools=[search_docs])

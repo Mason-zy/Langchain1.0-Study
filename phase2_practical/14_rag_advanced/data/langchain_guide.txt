@@ -1,0 +1,81 @@
+
+# LangChain 框架详解
+
+## 核心组件
+
+LangChain 提供以下核心组件：
+
+1. Models (模型接口)
+   - 支持 OpenAI GPT-4, GPT-3.5
+   - 支持 Anthropic Claude
+   - 支持 Groq Llama 模型
+   - 版本号：langchain>=1.0.0
+
+2. Prompts (提示词模板)
+   - PromptTemplate 类
+   - ChatPromptTemplate 类
+   - 支持变量插值
+
+3. Chains (链式调用)
+   - 已在 1.0 中废弃
+   - 建议使用 LCEL (LangChain Expression Language)
+
+4. Agents (智能代理)
+   - create_agent 函数
+   - 工具调用机制
+   - ReAct 模式
+
+5. Memory (记忆管理)
+   - InMemorySaver 类
+   - SQLite checkpointer
+   - 对话历史管理
+
+## RAG 技术栈
+
+### 基础 RAG
+- 文档加载：TextLoader, PyPDFLoader
+- 文本分割：RecursiveCharacterTextSplitter
+- 向量嵌入：HuggingFaceEmbeddings
+- 向量存储：Pinecone, Chroma, FAISS
+
+### 进阶 RAG
+- 混合搜索：BM25 + 向量搜索
+- EnsembleRetriever：组合多个检索器
+- 重排序：Reranking 模型
+- 查询优化：Query rewriting
+
+## 代码示例
+
+```python
+from langchain.agents import create_agent
+from langchain_core.tools import tool
+
+@tool
+def search_docs(query: str) -> str:
+    """搜索文档"""
+    return "结果"
+
+agent = create_agent(
+    model=model,
+    tools=[search_docs],
+    system_prompt="你是助手"
+)
+```
+
+## 性能优化
+
+1. Chunk 大小：建议 500-1000 字符
+2. Chunk 重叠：10-20%
+3. 检索数量：k=3-5
+4. 混合搜索权重：向量 0.6, BM25 0.4
+
+## 常见问题
+
+Q: LangChain 1.0 有什么新特性？
+A: 更简洁的 API，内置 LangGraph，改进的中间件系统
+
+Q: 如何选择向量数据库？
+A: Pinecone 适合生产，Chroma 适合开发，FAISS 适合离线
+
+Q: BM25 是什么？
+A: Best Match 25，一种基于词频的检索算法，适合精确匹配

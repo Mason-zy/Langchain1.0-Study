@@ -15,6 +15,9 @@
 langchain>=1.0.0,<2.0.0
 langchain-core>=1.0.0,<2.0.0
 
+# LangChain Classic - 包含部分移至经典包的组件（如 EnsembleRetriever）
+langchain-classic>=1.0.0
+
 # LangGraph - Agent 运行时
 langgraph>=1.0.0,<2.0.0
 
@@ -25,20 +28,28 @@ langsmith>=0.2.0
 # 模型集成包（按需选择）
 # ----------------------------------------------------------------------------
 
+# ⭐⭐⭐ Groq 集成（推荐！免费且超快）
+langchain-groq>=0.2.0
+
 # OpenAI 集成
 langchain-openai>=0.2.0
 
 # Anthropic 集成（Claude）
 langchain-anthropic>=0.3.0
 
-# Google Gemini 集成（可选）
-# langchain-google-genai>=2.0.0
+# Google Gemini 集成（免费额度慷慨）
+langchain-google-genai>=2.0.0
 
 # Cohere 集成（可选）
 # langchain-cohere>=0.3.0
 
-# HuggingFace 集成（可选）
-# langchain-huggingface>=0.1.0
+# HuggingFace 集成（用于 Embeddings - Module 13, 14）
+langchain-huggingface>=0.1.0
+
+# HuggingFace Transformers 和 Embeddings
+sentence-transformers>=3.0.0
+transformers>=4.40.0
+torch>=2.0.0  # PyTorch（用于 HuggingFace 模型）
 
 # ----------------------------------------------------------------------------
 # 社区集成和工具
@@ -61,11 +72,19 @@ chromadb>=0.5.0
 faiss-cpu>=1.8.0
 # 如果有 GPU，使用：faiss-gpu>=1.8.0
 
-# Pinecone（可选，需要注册）
-# pinecone-client>=5.0.0
+# Pinecone - 云向量数据库（需要注册）
+langchain-pinecone>=0.2.0
+pinecone-client>=6.0.0
 
 # Weaviate（可选）
 # weaviate-client>=4.0.0
+
+# ----------------------------------------------------------------------------
+# 检索增强（用于 RAG Advanced - Module 14）
+# ----------------------------------------------------------------------------
+
+# BM25 检索算法（用于混合搜索）
+rank_bm25>=0.2.2
 
 # ----------------------------------------------------------------------------
 # 文档处理
